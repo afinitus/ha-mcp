@@ -71,6 +71,8 @@ def _get_monthly_versions_between(current: str, target: str) -> list[str]:
 
     versions: list[str] = []
     year, month = current_parts[0], current_parts[1] + 1
+    if month > 12:
+        month, year = 1, year + 1
     while (year, month) <= (target_parts[0], target_parts[1]):
         versions.append(f"{year}.{month}.0")
         month += 1

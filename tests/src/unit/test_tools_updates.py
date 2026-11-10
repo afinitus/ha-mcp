@@ -235,6 +235,12 @@ class TestGetMonthlyVersionsBetween:
             "2026.1.0",
         ]
 
+    def test_current_in_december(self):
+        assert _get_monthly_versions_between("2025.12.3", "2026.2.0") == [
+            "2026.1.0",
+            "2026.2.0",
+        ]
+
     def test_same_month_returns_empty(self):
         assert _get_monthly_versions_between("2025.11.0", "2025.11.3") == []
         assert _get_monthly_versions_between("2025.11.0", "2025.11.0") == []
