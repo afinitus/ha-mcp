@@ -74,14 +74,16 @@ class TestCategorizeUpdate:
         result = _categorize_update("update.home_assistant_core_update", {})
         assert result == "core"
 
-    def test_core_without_home_assistant_in_title(self):
-        """Entity with 'core' but without 'home_assistant' in title is not categorized as core."""
-        # The logic requires BOTH 'core' in entity_id AND 'home_assistant' in title
-        # Note: 'home_assistant' (with underscore) must be present, not 'Home Assistant' (with space)
+    def test_renamed_core_update_by_title(self):
+        """A renamed Core update entity is still Core when its title says so."""
         result = _categorize_update(
-            "update.some_core_entity", {"title": "Home Assistant Core Update"}
+            "update.some_core_entity", {"title": "Home Assistant Core"}
         )
-        # This is 'other' because 'home_assistant' (underscore) is not in 'home assistant core update'
+        assert result == "core"
+
+    def test_core_without_home_assistant_in_title(self):
+        """'core' in the entity_id alone does not make an update Core."""
+        result = _categorize_update("update.some_core_entity", {"title": "Core Tools"})
         assert result == "other"
 
     def test_os_update(self):
