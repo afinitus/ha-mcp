@@ -37,8 +37,10 @@ def categorize_update(
     # Use 'or ""' to handle both missing keys AND explicit None values
     title_lower = (attributes.get("title") or "").lower()
 
+    # Titles are human-readable ("Home Assistant Core"), so match the spaced
+    # form; the entity_id check above covers the default slug.
     if "home_assistant_core" in entity_lower or (
-        "core" in entity_lower and "home_assistant" in title_lower
+        "core" in entity_lower and "home assistant" in title_lower
     ):
         return "core"
 
